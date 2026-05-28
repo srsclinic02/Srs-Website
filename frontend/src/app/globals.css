@@ -399,3 +399,15 @@ body::before {
   background-size: 200% 200%;
   animation: gradient-x 5s ease infinite;
 }
+
+/* ─── Hide iOS Safari video play button overlay ────────────────────────── */
+video::-webkit-media-controls {
+  display: none !important;
+}
+video::-webkit-media-controls-play-button {
+  display: none !important;
+}
+video::-webkit-media-controls-start-playback-button {
+  display: none !important;
+  -webkit-appearance: none !important;
+}
