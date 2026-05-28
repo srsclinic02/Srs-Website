@@ -9,9 +9,9 @@ const TestimonialsSection = dynamic(() => import('@/components/sections/Testimon
 const GallerySection = dynamic(() => import('@/components/sections/GallerySection'), { ssr: false });
 const LocationSection = dynamic(() => import('@/components/sections/LocationSection'), { ssr: false });
 const ZoomParallax = dynamic(() => import('@/components/ui/zoom-parallax').then(mod => mod.ZoomParallax), { ssr: false });
-const DisplayCards = dynamic(() => import('@/components/ui/display-cards'), { ssr: false });
+const StickyScrollCards = dynamic(() => import('@/components/ui/sticky-scroll-cards').then(mod => mod.StickyScrollCards), { ssr: false });
 import LazyMount from '@/components/ui/LazyMount';
-import { Sparkles, Shield, Heart, Clock } from "lucide-react";
+import { Sparkles, Shield, Heart, Clock, Smile } from "lucide-react";
 
 export default function HomeClient() {
   const clinicImages: any[] = [
@@ -28,29 +28,34 @@ export default function HomeClient() {
     {
       icon: <Shield className="size-4 text-primary" />,
       title: "Advanced Tech",
-      description: "Laser dentistry & 3D scanning",
+      description: "Laser dentistry & 3D scanning for precise diagnostics.",
       date: "State-of-the-Art",
-      iconClassName: "text-primary",
-      titleClassName: "text-primary",
-      className: "[grid-area:stack] translate-x-0 translate-y-0 rotate-0 opacity-100 scale-100 shadow-none transition-all duration-700 md:hover:-translate-y-10 md:before:absolute md:before:w-[100%] md:before:outline-1 md:before:rounded-xl md:before:outline-border md:before:h-[100%] md:before:content-[''] md:before:bg-blend-overlay md:before:bg-background/50 md:grayscale-[100%] md:hover:before:opacity-0 md:before:transition-opacity md:before:duration-700 md:hover:grayscale-0 md:before:left-0 md:before:top-0",
+      rotation: "rotate-0",
+      color: "var(--bg-surface)"
     },
     {
       icon: <Heart className="size-4 text-primary" />,
       title: "Painless Care",
-      description: "Compassionate, gentle approach",
+      description: "Compassionate, gentle approach to every procedure.",
       date: "Anxiety-Free",
-      iconClassName: "text-primary",
-      titleClassName: "text-primary",
-      className: "[grid-area:stack] translate-x-6 translate-y-20 rotate-0 opacity-100 scale-100 shadow-sm transition-all duration-700 md:translate-x-12 md:translate-y-10 md:hover:-translate-y-1 md:before:absolute md:before:w-[100%] md:before:outline-1 md:before:rounded-xl md:before:outline-border md:before:h-[100%] md:before:content-[''] md:before:bg-blend-overlay md:before:bg-background/50 md:grayscale-[100%] md:hover:before:opacity-0 md:before:transition-opacity md:before:duration-700 md:hover:grayscale-0 md:before:left-0 md:before:top-0",
+      rotation: "rotate-1",
+      color: "var(--bg-section)"
     },
     {
       icon: <Clock className="size-4 text-primary" />,
       title: "Efficient",
-      description: "Zero wait times & swift procedures",
+      description: "Zero wait times & swift procedures that respect your schedule.",
       date: "Respecting your time",
-      iconClassName: "text-primary",
-      titleClassName: "text-primary",
-      className: "[grid-area:stack] translate-x-12 translate-y-40 rotate-0 z-30 scale-100 shadow-xl transition-all duration-700 md:translate-x-24 md:translate-y-20 md:hover:translate-y-10",
+      rotation: "-rotate-1",
+      color: "var(--bg-base)"
+    },
+    {
+      icon: <Smile className="size-4 text-primary" />,
+      title: "Personalized Smile Design",
+      description: "Every treatment plan is tailored to your unique facial aesthetics.",
+      date: "Crafted for You",
+      rotation: "rotate-0",
+      color: "var(--bg-surface)"
     },
   ];
 
@@ -87,17 +92,26 @@ export default function HomeClient() {
         </div>
       </div>
 
-      {/* Why Choose Us - Display Cards Area */}
-      <section className="py-12 md:py-24 bg-background relative overflow-hidden z-10 flex flex-col md:flex-row items-center justify-center gap-16 px-4">
-        <div className="max-w-xl text-center md:text-left">
-          <span className="text-primary font-medium tracking-widest text-sm uppercase mb-3 block">Why Choose Us</span>
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-playfair font-semibold text-text mb-6">Redefining Dental Standards.</h2>
-          <p className="text-lg text-text/70">From the moment you walk in, experience a seamless blend of luxury, advanced medical technology, and profound empathy.</p>
-        </div>
-        <div className="w-full max-w-sm flex justify-center">
-          <LazyMount minHeight="400px" rootMargin="400px">
-            <DisplayCards cards={valueCards} />
-          </LazyMount>
+      {/* Why Choose Us - Scroll Cards Area */}
+      <section className="bg-background relative z-10 w-full overflow-visible">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between w-full">
+          {/* Sticky Left Content */}
+          <div className="w-full md:w-1/2 md:sticky md:top-0 md:h-screen flex items-center pt-8 md:pt-0 mb-4 md:mb-0">
+            <div className="max-w-xl text-center md:text-left">
+              <span className="text-primary font-bold tracking-widest text-xs sm:text-sm uppercase mb-3 block">Why Choose Us</span>
+              <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-playfair font-semibold text-text mb-4 md:mb-6 md:leading-[1.1]">Redefining Dental Standards.</h2>
+              <p className="text-base md:text-lg text-text/70 max-w-md font-light leading-relaxed mx-auto md:mx-0">
+                From the moment you walk in, experience a seamless blend of luxury, advanced medical technology, and profound empathy.
+              </p>
+            </div>
+          </div>
+          
+          {/* Scrollable Right Cards */}
+          <div className="w-full md:w-1/2 relative pb-8 md:pb-0">
+             <LazyMount minHeight="300px" rootMargin="400px">
+               <StickyScrollCards cards={valueCards} />
+             </LazyMount>
+          </div>
         </div>
       </section>
       
