@@ -41,7 +41,7 @@ export const TransitionProvider = ({ children }: { children: React.ReactNode }) 
         },
         transitionEnd: { display: "none" }
       }));
-    }, 600); // Set exactly to 600ms as requested
+    }, 950); 
     return () => clearTimeout(timer);
   }, [controls]);
 
