@@ -11,9 +11,13 @@ const GALLERY_IMAGES = [
   { src: "https://res.cloudinary.com/dswvmoboh/image/upload/q_auto/f_auto/v1775988820/IMG_2165_p4bref.avif", alt: "Advanced Dental Suite" },
   { src: "https://res.cloudinary.com/dswvmoboh/image/upload/q_auto/f_auto/v1775988820/IMG_2159_lcqzlh.avif", alt: "Modern Clinic Interior" },
   { src: "https://res.cloudinary.com/dswvmoboh/image/upload/q_auto/f_auto/v1775988820/IMG_2135_hxpsip.avif", alt: "Patient Comfort Area" },
-  { src: "https://res.cloudinary.com/dswvmoboh/image/upload/q_auto/f_auto/v1775988819/fav6_id8c8y.avif", alt: "Sterilized Equipment" },
+  { src: "https://res.cloudinary.com/dswvmoboh/image/upload/q_auto/f_auto/v1775988819/fav6_id8c8y.avif", alt: "Sterilized Equipment", hideOnDesktop: true },
   { src: "https://res.cloudinary.com/dswvmoboh/image/upload/q_auto/f_auto/v1775988819/IMG_2208_hfrus5.avif", alt: "Consultation Room" },
   { src: "https://res.cloudinary.com/dswvmoboh/image/upload/q_auto/f_auto/v1775988818/IMG_2222_wvrmim.avif", alt: "Professional Care" },
+  { src: "https://res.cloudinary.com/dswvmoboh/image/upload/q_auto/f_auto/v1781954996/newimg3_zvufk3.jpg", alt: "Clinic View" },
+  { src: "https://res.cloudinary.com/dswvmoboh/image/upload/q_auto/f_auto/v1781954996/newimg4_vh7j2j.jpg", alt: "Clinic Interior" },
+  { src: "https://res.cloudinary.com/dswvmoboh/image/upload/q_auto/f_auto/v1781954996/newimg2_pg7dt4.jpg", alt: "Dental Setup" },
+  { src: "https://res.cloudinary.com/dswvmoboh/image/upload/q_auto/f_auto/v1781954996/newimg1_i0wmab.jpg", alt: "Professional Facility" },
 ];
 
 export default function GallerySection({ hideButton = false }: { hideButton?: boolean }) {
@@ -50,11 +54,13 @@ export default function GallerySection({ hideButton = false }: { hideButton?: bo
         <div className="grid grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4 md:gap-5">
           {GALLERY_IMAGES.map((img, i) => {
             const yVal = i % 2 === 0 ? y1 : y2;
+            const desktopClass = (img as any).hideOnDesktop ? "md:hidden" : "";
+            
             return (
-              <ScrollReveal key={i} delay={i * 0.06}>
+              <ScrollReveal key={i} delay={i * 0.06} className={desktopClass}>
                 <motion.div
                   style={{ y: yVal }}
-                  className="relative overflow-hidden rounded-xl sm:rounded-2xl aspect-square group cursor-pointer"
+                  className="relative overflow-hidden rounded-xl sm:rounded-2xl aspect-square group cursor-pointer h-full w-full"
                   onClick={() => setSelectedImage(img.src)}
                 >
                   <Image

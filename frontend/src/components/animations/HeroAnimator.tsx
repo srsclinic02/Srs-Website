@@ -24,8 +24,10 @@ export default function HeroAnimator({ children }: { children: React.ReactNode }
 
     // Mobile — only run scroll animations if reduced motion is NOT preferred
     mm.add("(max-width: 767px) and (prefers-reduced-motion: no-preference)", () => {
-      const imageNode = container.current?.querySelector('.hero-image-wrapper');
-      const textNode = container.current?.querySelector('.hero-text-wrapper');
+      if (!container.current) return;
+      
+      const imageNode = container.current.querySelector('.hero-image-wrapper');
+      const textNode = container.current.querySelector('.hero-text-wrapper');
       
       const tl = gsap.timeline({
         scrollTrigger: {
@@ -42,8 +44,10 @@ export default function HeroAnimator({ children }: { children: React.ReactNode }
 
     // Desktop/Tablet — only run scroll animations if reduced motion is NOT preferred
     mm.add("(min-width: 768px) and (prefers-reduced-motion: no-preference)", () => {
-      const imageNode = container.current?.querySelector('.hero-image-wrapper');
-      const textNode = container.current?.querySelector('.hero-text-wrapper');
+      if (!container.current) return;
+
+      const imageNode = container.current.querySelector('.hero-image-wrapper');
+      const textNode = container.current.querySelector('.hero-text-wrapper');
 
       const tl = gsap.timeline({
         scrollTrigger: {
