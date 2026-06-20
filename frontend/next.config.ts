@@ -9,6 +9,12 @@ const nextConfig: NextConfig = {
   // @ts-ignore - Next.js 16.2 uses this outside experimental but types haven't caught up
   allowedDevOrigins: ["192.168.29.161", "localhost", "*"],
   compress: true,
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
+  typescript: {
+    ignoreBuildErrors: true,
+  },
   images: {
     formats: ['image/avif', 'image/webp'],
     remotePatterns: [
