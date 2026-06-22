@@ -204,12 +204,10 @@ export default function TreatmentsClient() {
                   key={t.title}
                   className="bg-white rounded-2xl shadow-sm border border-surface/50 overflow-hidden flex flex-col hover:shadow-md transition-shadow group h-full cursor-pointer relative"
                 >
-                  <Link href={`/treatments/${t.slug}`} className="absolute inset-0 z-10" aria-label={`View ${t.title} Details`} />
-                  
                   {/* Before / After Slider or Single Image */}
-                  <div className="w-full rounded-t-2xl overflow-hidden border-b border-primary/10 relative z-0">
+                  <div className="w-full rounded-t-2xl overflow-hidden border-b border-primary/10 relative">
                     {pair.single ? (
-                      <div className="aspect-[4/3] w-full relative">
+                      <Link href={`/treatments/${t.slug}`} className="aspect-[4/3] w-full relative block">
                         <img 
                           src={pair.single} 
                           alt={t.title} 
@@ -217,10 +215,10 @@ export default function TreatmentsClient() {
                           loading="lazy"
                           decoding="async"
                         />
-                      </div>
+                      </Link>
                     ) : pair.before && pair.after ? (
                       <>
-                        <ImageComparison className="aspect-[4/3] w-full relative z-20" enableHover>
+                        <ImageComparison className="aspect-[4/3] w-full" enableHover>
                           <ImageComparisonImage src={pair.before} alt={`${t.title} Before`} position="left" />
                           <ImageComparisonImage src={pair.after}  alt={`${t.title} After`}  position="right" />
                           <ImageComparisonSlider className="w-1 bg-white/60 backdrop-blur-sm shadow-md">
@@ -235,19 +233,19 @@ export default function TreatmentsClient() {
                         </div>
                       </>
                     ) : (
-                      <div className="aspect-[4/3] w-full bg-surface flex items-center justify-center">
+                      <Link href={`/treatments/${t.slug}`} className="aspect-[4/3] w-full bg-surface flex items-center justify-center">
                         <span className="text-[10px] text-primary/40 uppercase tracking-widest font-medium">Coming Soon</span>
-                      </div>
+                      </Link>
                     )}
                   </div>
 
                   {/* Card Content */}
-                  <div className="p-3 sm:p-5 flex flex-col items-center text-center flex-1 z-0">
+                  <Link href={`/treatments/${t.slug}`} className="p-3 sm:p-5 flex flex-col items-center text-center flex-1">
                     <t.icon className="h-6 w-6 sm:h-8 sm:w-8 text-primary mb-2 sm:mb-3 mt-1 group-hover:scale-110 transition-transform duration-300" />
                     <h3 className="text-sm sm:text-base font-semibold text-text mb-1 sm:mb-2 leading-tight group-hover:text-primary transition-colors">{t.title}</h3>
                     <p className="text-text/60 text-[10px] sm:text-xs leading-relaxed line-clamp-3">{t.description}</p>
                     <span className="mt-auto pt-3 text-[10px] font-semibold text-primary uppercase tracking-wider opacity-0 group-hover:opacity-100 transition-opacity">Learn More</span>
-                  </div>
+                  </Link>
                 </motion.div>
               );
             })}
