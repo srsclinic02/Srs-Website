@@ -193,18 +193,27 @@ export default function BookingForm() {
               Preferred Slot <span aria-hidden="true" className="text-red-400">*</span>
               <span className="sr-only">(required)</span>
             </legend>
-            <div className="flex bg-white/5 border border-white/10 rounded-xl p-1 h-12">
+            <div className="flex bg-white/5 border border-white/10 rounded-xl p-1 h-14">
               <label className="flex-1 cursor-pointer relative">
                 <input type="radio" name="slot" value="Morning" className="peer sr-only" defaultChecked />
-                <div className="w-full h-full flex items-center justify-center text-[11px] sm:text-xs font-semibold text-white/50 peer-checked:text-white peer-checked:bg-white/15 peer-checked:shadow-sm rounded-lg transition-all duration-300">Morning</div>
+                <div className="w-full h-full flex flex-col items-center justify-center text-white/50 peer-checked:text-white peer-checked:bg-white/15 peer-checked:shadow-sm rounded-lg transition-all duration-300">
+                  <span className="text-[11px] sm:text-xs font-semibold">Morning</span>
+                  <span className="text-[8px] sm:text-[9px] opacity-70 font-light">10am - 1:45pm</span>
+                </div>
               </label>
               <label className="flex-1 cursor-pointer relative">
                 <input type="radio" name="slot" value="Afternoon" className="peer sr-only" />
-                <div className="w-full h-full flex items-center justify-center text-[11px] sm:text-xs font-semibold text-white/50 peer-checked:text-white peer-checked:bg-white/15 peer-checked:shadow-sm rounded-lg transition-all duration-300">Afternoon</div>
+                <div className="w-full h-full flex flex-col items-center justify-center text-white/50 peer-checked:text-white peer-checked:bg-white/15 peer-checked:shadow-sm rounded-lg transition-all duration-300">
+                  <span className="text-[11px] sm:text-xs font-semibold">Afternoon</span>
+                  <span className="text-[8px] sm:text-[9px] opacity-70 font-light">2pm - 5:15pm</span>
+                </div>
               </label>
               <label className="flex-1 cursor-pointer relative">
                 <input type="radio" name="slot" value="Evening" className="peer sr-only" />
-                <div className="w-full h-full flex items-center justify-center text-[11px] sm:text-xs font-semibold text-white/50 peer-checked:text-white peer-checked:bg-white/15 peer-checked:shadow-sm rounded-lg transition-all duration-300">Evening</div>
+                <div className="w-full h-full flex flex-col items-center justify-center text-white/50 peer-checked:text-white peer-checked:bg-white/15 peer-checked:shadow-sm rounded-lg transition-all duration-300">
+                  <span className="text-[11px] sm:text-xs font-semibold">Evening</span>
+                  <span className="text-[8px] sm:text-[9px] opacity-70 font-light">5:30pm - 7:30pm</span>
+                </div>
               </label>
             </div>
           </fieldset>
@@ -229,9 +238,9 @@ export default function BookingForm() {
               <option value="Orthodontic" className="bg-primary-dark">Orthodontic Treatment</option>
               <option value="Periodontal Care" className="bg-primary-dark">Periodontal Therapy</option>
               <option value="Crown & Bridges" className="bg-primary-dark">Crown & Bridges</option>
-              <option value="Cavity" className="bg-primary-dark">Cavity</option>
-              <option value="Wisdom Tooth" className="bg-primary-dark">Wisdom Tooth</option>
-              <option value="Normal Tooth" className="bg-primary-dark">Normal Tooth</option>
+              <option value="Cavity Treatment" className="bg-primary-dark">Cavity Treatment</option>
+              <option value="Wisdom Tooth Removal" className="bg-primary-dark">Wisdom Tooth Removal</option>
+              <option value="Normal Tooth Treatment/Removal" className="bg-primary-dark">Normal Tooth Treatment/Removal</option>
               <option value="Minor Surgery" className="bg-primary-dark">Minor Surgery</option>
               <option value="Other" className="bg-primary-dark">Other / Consult</option>
             </select>
