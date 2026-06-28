@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import confetti from "canvas-confetti";
 import { motion, AnimatePresence } from "framer-motion";
 import { Input } from "@/components/ui/input";
@@ -11,6 +11,35 @@ export default function BookingForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [cooldown, setCooldown] = useState(0);
+
+  type BlockedShift = { date: string; shifts: string[] };
+  const [holidays, setHolidays] = useState<string[]>([]);
+  const [blockedShifts, setBlockedShifts] = useState<BlockedShift[]>([]);
+  const [selectedDate, setSelectedDate] = useState<string>("");
+
+  useEffect(() => {
+    const fetchOverrides = async () => {
+      try {
+        const businessId = process.env.NEXT_PUBLIC_BOOKING_BUSINESS_ID;
+        if (!businessId) return;
+
+        const apiUrl = process.env.NEXT_PUBLIC_BOOKING_API_URL || 'https://review-booking-system.onrender.com';
+        const cleanApiUrl = apiUrl.endsWith('/api') ? apiUrl.slice(0, -4) : apiUrl;
+        
+        const res = await fetch(`${cleanApiUrl}/api/public/business/${businessId}`);
+        if (res.ok) {
+          const data = await res.json();
+          if (data.business) {
+            setHolidays(data.business.holidays || []);
+            setBlockedShifts(data.business.blocked_shifts || []);
+          }
+        }
+      } catch (error) {
+        console.error("Failed to fetch schedule overrides:", error);
+      }
+    };
+    fetchOverrides();
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -179,11 +208,26 @@ export default function BookingForm() {
               name="date" 
               min={new Date().toISOString().split("T")[0]}
               onChange={(e) => {
-                const selectedDate = new Date(e.target.value);
-                if (selectedDate.getDay() === 0) {
+                const val = e.target.value;
+                const selectedDateObj = new Date(val);
+                
+                // 1. Sunday check
+                if (selectedDateObj.getDay() === 0) {
                   alert("Clinic is closed on Sundays. Please select another day.");
                   e.target.value = "";
+                  setSelectedDate("");
+                  return;
                 }
+
+                // 2. Holiday check
+                if (holidays.some(h => h.startsWith(val))) {
+                  alert("The clinic is closed on this date (Holiday). Please select another day.");
+                  e.target.value = "";
+                  setSelectedDate("");
+                  return;
+                }
+                
+                setSelectedDate(val);
               }}
               className="bg-white/5 border-white/10 text-white placeholder:text-white/30 focus-ring focus:border-primary-mid h-12 rounded-xl [color-scheme:dark]" 
             />
@@ -194,27 +238,38 @@ export default function BookingForm() {
               <span className="sr-only">(required)</span>
             </legend>
             <div className="flex bg-white/5 border border-white/10 rounded-xl p-1 h-14">
-              <label className="flex-1 cursor-pointer relative">
-                <input type="radio" name="slot" value="Morning" className="peer sr-only" defaultChecked />
-                <div className="w-full h-full flex flex-col items-center justify-center text-white/50 peer-checked:text-white peer-checked:bg-white/15 peer-checked:shadow-sm rounded-lg transition-all duration-300">
-                  <span className="text-[11px] sm:text-xs font-semibold">Morning</span>
-                  <span className="text-[8px] sm:text-[9px] opacity-70 font-light">10am - 1:45pm</span>
-                </div>
-              </label>
-              <label className="flex-1 cursor-pointer relative">
-                <input type="radio" name="slot" value="Afternoon" className="peer sr-only" />
-                <div className="w-full h-full flex flex-col items-center justify-center text-white/50 peer-checked:text-white peer-checked:bg-white/15 peer-checked:shadow-sm rounded-lg transition-all duration-300">
-                  <span className="text-[11px] sm:text-xs font-semibold">Afternoon</span>
-                  <span className="text-[8px] sm:text-[9px] opacity-70 font-light">2pm - 5:15pm</span>
-                </div>
-              </label>
-              <label className="flex-1 cursor-pointer relative">
-                <input type="radio" name="slot" value="Evening" className="peer sr-only" />
-                <div className="w-full h-full flex flex-col items-center justify-center text-white/50 peer-checked:text-white peer-checked:bg-white/15 peer-checked:shadow-sm rounded-lg transition-all duration-300">
-                  <span className="text-[11px] sm:text-xs font-semibold">Evening</span>
-                  <span className="text-[8px] sm:text-[9px] opacity-70 font-light">5:30pm - 7:30pm</span>
-                </div>
-              </label>
+              {(() => {
+                const currentBlockedShifts = blockedShifts.find(bs => bs.date.startsWith(selectedDate))?.shifts || [];
+                const isMorningBlocked = currentBlockedShifts.includes("Morning");
+                const isAfternoonBlocked = currentBlockedShifts.includes("Afternoon");
+                const isEveningBlocked = currentBlockedShifts.includes("Evening");
+
+                return (
+                  <>
+                    <label className={`flex-1 relative ${isMorningBlocked ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'}`}>
+                      <input type="radio" name="slot" value="Morning" className="peer sr-only" defaultChecked={!isMorningBlocked} disabled={isMorningBlocked} />
+                      <div className="w-full h-full flex flex-col items-center justify-center text-white/50 peer-checked:text-white peer-checked:bg-white/15 peer-checked:shadow-sm rounded-lg transition-all duration-300">
+                        <span className="text-[11px] sm:text-xs font-semibold">Morning</span>
+                        <span className="text-[8px] sm:text-[9px] opacity-70 font-light">10am - 1:45pm</span>
+                      </div>
+                    </label>
+                    <label className={`flex-1 relative ${isAfternoonBlocked ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'}`}>
+                      <input type="radio" name="slot" value="Afternoon" className="peer sr-only" disabled={isAfternoonBlocked} />
+                      <div className="w-full h-full flex flex-col items-center justify-center text-white/50 peer-checked:text-white peer-checked:bg-white/15 peer-checked:shadow-sm rounded-lg transition-all duration-300">
+                        <span className="text-[11px] sm:text-xs font-semibold">Afternoon</span>
+                        <span className="text-[8px] sm:text-[9px] opacity-70 font-light">2pm - 5:15pm</span>
+                      </div>
+                    </label>
+                    <label className={`flex-1 relative ${isEveningBlocked ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'}`}>
+                      <input type="radio" name="slot" value="Evening" className="peer sr-only" disabled={isEveningBlocked} />
+                      <div className="w-full h-full flex flex-col items-center justify-center text-white/50 peer-checked:text-white peer-checked:bg-white/15 peer-checked:shadow-sm rounded-lg transition-all duration-300">
+                        <span className="text-[11px] sm:text-xs font-semibold">Evening</span>
+                        <span className="text-[8px] sm:text-[9px] opacity-70 font-light">5:30pm - 7:30pm</span>
+                      </div>
+                    </label>
+                  </>
+                );
+              })()}
             </div>
           </fieldset>
         </div>
