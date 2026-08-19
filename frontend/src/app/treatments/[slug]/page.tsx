@@ -177,10 +177,10 @@ export default async function TreatmentPage({ params }: Props) {
               </div>
 
               <div>
-                <h2 className="text-3xl font-playfair font-semibold text-primary-dark mb-6">The Procedure</h2>
-                <div className="space-y-6">
+                <h2 className="text-3xl font-playfair font-semibold text-primary-dark mb-6">How It Works: Step-by-Step Procedure</h2>
+                <ol className="space-y-6 list-none p-0 m-0">
                   {treatment.procedureSteps.map((step, index) => (
-                    <div key={index} className="flex gap-4">
+                    <li key={index} className="flex gap-4">
                       <div className="flex flex-col items-center">
                         <div className="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-bold text-sm shrink-0">
                           {index + 1}
@@ -190,12 +190,12 @@ export default async function TreatmentPage({ params }: Props) {
                         )}
                       </div>
                       <div className="pb-6">
-                        <h3 className="text-xl font-medium text-text mb-2">{step.title}</h3>
-                        <p className="text-text/70">{step.desc}</p>
+                        <h3 className="text-xl font-medium text-text mb-2" itemProp="name">{step.title}</h3>
+                        <p className="text-text/70" itemProp="text">{step.desc}</p>
                       </div>
-                    </div>
+                    </li>
                   ))}
-                </div>
+                </ol>
               </div>
 
               {treatment.beforeAndAfter && (
@@ -249,7 +249,7 @@ export default async function TreatmentPage({ params }: Props) {
               <div className="bg-primary-dark rounded-3xl p-6 sm:p-8 text-white shadow-xl relative overflow-hidden">
                 <div className="absolute top-0 right-0 w-64 h-64 bg-primary rounded-full blur-[80px] opacity-20 pointer-events-none" />
                 <h3 className="text-2xl font-playfair font-semibold mb-2 relative z-10">Ready to transform your smile?</h3>
-                <p className="text-white/70 mb-8 text-sm relative z-10">Book a consultation for {treatment.title.toLowerCase()} today.</p>
+                <p className="text-white/70 mb-8 text-sm relative z-10">Book a consultation for {treatment.title.toLowerCase()}.</p>
                 <div className="relative z-10">
                   <BookingForm defaultTreatment={treatment.title} />
                 </div>
