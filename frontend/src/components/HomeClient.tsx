@@ -13,7 +13,11 @@ const StickyScrollCards = dynamic(() => import('@/components/ui/sticky-scroll-ca
 import LazyMount from '@/components/ui/LazyMount';
 import { Sparkles, Shield, Heart, Clock, Smile } from "lucide-react";
 
-export default function HomeClient() {
+interface HomeClientProps {
+  locationName?: string;
+}
+
+export default function HomeClient({ locationName }: HomeClientProps = {}) {
   const clinicImages: any[] = [
     
     { src: 'https://res.cloudinary.com/dswvmoboh/image/upload/q_auto/f_auto/w_800/v1775983401/Untitled_design_nmymxg.png', alt: 'Dr. Saachi Shingrani - Centre' },
@@ -62,7 +66,8 @@ export default function HomeClient() {
 
   return (
     <>
-      <HeroSection />
+      <HeroSection locationName={locationName} />
+
 
       <AboutDoctorSection />
       

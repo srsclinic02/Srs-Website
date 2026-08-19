@@ -103,6 +103,20 @@ export default async function TreatmentPage({ params }: Props) {
     "description": treatment.shortDescription
   };
 
+  const medicalWebPageSchema = {
+    "@context": "https://schema.org",
+    "@type": "MedicalWebPage",
+    "name": treatment.title,
+    "about": {
+      "@type": "MedicalProcedure",
+      "name": treatment.title
+    },
+    "provider": {
+      "@type": "MedicalClinic",
+      "name": "Dr. Saachi Shingrani's Dental Care"
+    }
+  };
+
   return (
     <main className="flex min-h-screen flex-col bg-[#faf8f5]">
       <AnimatedNavFramer />
@@ -115,6 +129,10 @@ export default async function TreatmentPage({ params }: Props) {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(medicalWebPageSchema) }}
       />
 
       <section className="pt-24 pb-12 sm:pt-32 sm:pb-20">

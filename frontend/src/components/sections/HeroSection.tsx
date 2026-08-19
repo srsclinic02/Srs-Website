@@ -2,7 +2,11 @@ import React from 'react';
 import PageLink from '@/components/PageLink';
 import HeroAnimator from '@/components/animations/HeroAnimator';
 
-export default function HeroSection() {
+interface HeroSectionProps {
+  locationName?: string;
+}
+
+export default function HeroSection({ locationName }: HeroSectionProps = {}) {
   return (
     <HeroAnimator>
       <div 
@@ -34,7 +38,7 @@ export default function HeroSection() {
           A Smile That Goes<br className="hidden md:block" /> An Extra Mile
         </h1>
         <p className="text-base sm:text-lg md:text-2xl text-white/90 max-w-2xl font-light mb-8 sm:mb-10 mx-auto drop-shadow-md pointer-events-auto">
-          Expert dental care with compassion and precision right in the heart of Mumbai.
+          Expert dental care with compassion and precision right in the heart of {locationName || "Mumbai"}.
         </p>
         
         <PageLink 
