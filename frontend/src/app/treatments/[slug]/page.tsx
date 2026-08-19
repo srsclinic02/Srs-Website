@@ -56,7 +56,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 
   return {
-    title: `[2026] Best ${treatment.title} in Bandra | Free Consultation`,
+    title: `[2026] Best ${treatment.title} in Bandra`,
     description: `Looking for ${treatment.title.toLowerCase()} in Mumbai? ${treatment.shortDescription} 5-Star Rated clinic with 0% EMI available. Book your painless treatment today!`,
     keywords: treatment.seoKeywords,
     alternates: {
